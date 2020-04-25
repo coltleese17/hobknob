@@ -41,6 +41,8 @@ let payload;
        throw new Error('Response not a valid JSON object');
      }
    });
-   Then('contains a message property which says "Payload should not be empty"', function (callback) {
-     callback(null, 'pending');
+   Then('contains a message property which says "Payload should not be empty"', function () {
+     if (payload.message !== 'Payload should not be empty') {
+       throw new Error();
+     }
    });
