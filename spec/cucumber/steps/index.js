@@ -1,8 +1,9 @@
 import superagent from 'superagent';
+import assert from 'assert';
 import { When, Then } from 'cucumber';
 
    When('the client creates a POST request to /users', function () {
-     this.request = superagent('POST', 'localhost:8080/users');
+     this.request = superagent('POST', `${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT}/users`);
    });
    When('attaches a generic empty payload', function () {
      return undefined; 
@@ -19,10 +20,9 @@ import { When, Then } from 'cucumber';
         });
    });
    Then('our API should respond with a 400 HTTP status code', function () {
-      if (this.response.statusCode !== 400) {
-       throw new Error();
-      }
-   });
+     assert.equal(this.response.statusCode, 400);
+      });
+
    Then('the payload of the response should be a JSON object', function () {
      // Check Content-Type header
      const contentType = this.response.headers['Content-Type'] ||
@@ -38,7 +38,5 @@ import { When, Then } from 'cucumber';
      }
      });
    Then('contains a message property which says "Payload should not be empty"', function () {
-     if (this.responsePayload.message !== 'Payload should not be empty') {
-       throw new Error();
-     }
+     assert.equal(this.responsePayload.message, 'Payload should not be empty');
    });
