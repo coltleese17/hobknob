@@ -6,4 +6,9 @@
      }
    }]
  ],
+ "env": {
+   "debug": {
+      "retainLines": true
+            }
+        }
 }
